@@ -1,13 +1,43 @@
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ email, password });
+    setError('');
+    setLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:3001/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Signup failed');
+      }
+
+      localStorage.setItem('token', data.token);
+      
+      // Refresh the page after successful signup
+      window.location.reload();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -16,22 +46,35 @@ export default function Signup() {
         <div className="signup-logo">
           <h1>WingSearch</h1>
         </div>
-        
+
         <div className="signup-form-container">
           <form className="signup-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+              <input 
+                type="email" 
+                placeholder="Email" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                required 
+              />
             </div>
             <div className="form-group">
-              <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <input 
+                type="password" 
+                placeholder="Password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                required 
+              />
             </div>
-            <button type="submit" className="next-button">
-              NEXT
+            {error && <div className="error-message">{error}</div>}
+            <button type="submit" className="next-button" disabled={loading}>
+              {loading ? 'Creating Account...' : 'NEXT'}
             </button>
             <div className="separator">
               <hr /><span>or</span><hr />
             </div>
-            <button type="button" className="login-button">
+            <button type="button" className="login-button" onClick={() => navigate('/login')}>
               LOGIN
             </button>
           </form>

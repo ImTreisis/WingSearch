@@ -21,7 +21,7 @@ export default function Hero() {
   return (
 
     <div className="main-container">
-      {/* Hero Content */}
+      {}
       <div className="hero-container">
         <div className="hero-background">
           <img src="/bg.jpg" alt="Hero background" />

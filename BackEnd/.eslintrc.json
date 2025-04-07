@@ -1,0 +1,10 @@
+{
+  "env": {
+    "node": true,
+    "commonjs": true
+  },
+  "globals": {
+    "process": "readonly",
+    "Buffer": "readonly"
+  }
+} 
