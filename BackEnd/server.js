@@ -9,6 +9,14 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3001;
 
+const corsOptions = {
+  origin: [
+    'http://localhost:5173', // Vite dev server
+    'http://localhost:3000', // React dev server
+    'https://wingsearch.vercel.app', // Main domain
+    'https://wingsearch-1xgky20oe-treisis-projects.vercel.app' // Deployment domain
+  ]
+};
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -24,7 +32,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   process.exit(1);
 });
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Import User model
