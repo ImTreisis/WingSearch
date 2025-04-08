@@ -30,7 +30,7 @@ export default function TicketSearch() {
     const formattedReturnDate = searchParams.returnDate ? searchParams.returnDate.toISOString().split('T')[0] : null;
   
     try {
-      const response = await axios.get('http://localhost:3001/api/flights/search', {
+      const response = await axios.get('https://wingsearch.onrender.com/api/flights/search', {
         params: {
           fromId: searchParams.fromId,
           toId: searchParams.toId,
@@ -327,5 +327,7 @@ export default function TicketSearch() {
     </div>
   );
 }
+
+
 
 

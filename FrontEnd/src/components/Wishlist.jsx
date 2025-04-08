@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 export default function Wishlist() {
-  const navigate = useNavigate();
-  const [destination, setDestination] = useState('');
-  const [date, setDate] = useState('');
+
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -27,7 +24,7 @@ export default function Wishlist() {
         return;
       }
 
-      const response = await axios.get('http://localhost:3001/api/wishlist', {
+      const response = await axios.get('https://wingsearch.onrender.com/api/wishlist', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -59,7 +56,7 @@ export default function Wishlist() {
       }
 
       const response = await axios.post(
-        'http://localhost:3001/api/wishlist',
+        'https://wingsearch.onrender.com/api/wishlist',
         { item: newItem },
         {
           headers: {
@@ -89,7 +86,7 @@ export default function Wishlist() {
         return;
       }
 
-      await axios.delete(`http://localhost:3001/api/wishlist/${itemId}`, {
+      await axios.delete(`https://wingsearch.onrender.com/api/wishlist/${itemId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -13,7 +13,7 @@ export default function FlightTracker() {
     setError(null);
 
     try {
-      const response = await axios.get('http://localhost:3001/api/flights/track', {
+      const response = await axios.get('https://wingsearch.onrender.com/api/flights/track', {
         params: { flightNumber }
       });
 
