@@ -6,15 +6,25 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token);
+    const checkAuth = () => {
+      const token = localStorage.getItem('token');
+      setIsAuthenticated(!!token);
+    };
+
+    checkAuth();
+
+    window.addEventListener('auth-change', checkAuth);
+
+    return () => {
+      window.removeEventListener('auth-change', checkAuth);
+    };
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
-    navigate('/');
-    window.location.reload();
+    navigate('/', { replace: true });
+
   };
 
   const handleWishlistClick = (e) => {

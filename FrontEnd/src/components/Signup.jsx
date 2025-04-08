@@ -31,8 +31,8 @@ export default function Signup() {
 
       localStorage.setItem('token', data.token);
       
-      // Refresh the page after successful signup
-      window.location.reload();
+      navigate('/', { replace: true });
+      window.dispatchEvent(new Event('auth-change'));
     } catch (err) {
       setError(err.message);
     } finally {
