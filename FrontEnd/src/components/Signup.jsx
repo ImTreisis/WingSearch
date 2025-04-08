@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './Auth';
 
 export default function Signup() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -29,10 +30,11 @@ export default function Signup() {
         throw new Error(data.message || 'Signup failed');
       }
 
-      localStorage.setItem('token', data.token);
+      // Use the login function from auth context
+      login(data.token);
       
+      // Navigate to home page
       navigate('/', { replace: true });
-      window.dispatchEvent(new Event('auth-change'));
     } catch (err) {
       setError(err.message);
     } finally {

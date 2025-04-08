@@ -1,30 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useAuth } from './Auth';
 
 export default function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem('token');
-      setIsAuthenticated(!!token);
-    };
-
-    checkAuth();
-
-    window.addEventListener('auth-change', checkAuth);
-
-    return () => {
-      window.removeEventListener('auth-change', checkAuth);
-    };
-  }, []);
+  const { isAuthenticated, logout } = useAuth();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
+    logout();
     navigate('/', { replace: true });
-
   };
 
   const handleWishlistClick = (e) => {
